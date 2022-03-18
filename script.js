@@ -1,10 +1,11 @@
 //SELETORES
-const listIput = document.querySelector('.list-input');
+const listInput = document.querySelector('.list-input');
 const listButton = document.querySelector('.list-button');
 const list = document.querySelector('.list');
 const listFiltros = document.querySelector('.listFiltros');
 
 //EVENT LISTENERS
+document.addEventListener('DOMContentLoaded', getTodos);
 listButton.addEventListener('click',addList);
 list.addEventListener('click',deleteCheck);
 listFiltros.addEventListener('click',filtroList);
@@ -18,9 +19,11 @@ function addList(event){
     listDiv.classList.add('to_do');
     //CRIANDO UM LI
     const newTo_do = document.createElement('li');
-    newTo_do.innerText = listIput.value;
+    newTo_do.innerText = listInput.value;
     newTo_do.classList.add('to_do_item');
     listDiv.appendChild(newTo_do);
+    //SAVE LOCAL STORANGE
+    saveLocalTodos(listInput.value);
     //CHECAR MARCAÇÃO DE BOTÃO
     const buttonMarcado = document.createElement('button');
     buttonMarcado.innerHTML = '<i class="fas fa-check"></i>';
@@ -35,7 +38,7 @@ function addList(event){
     list.appendChild(listDiv);
 
     //LIMPAR listImput
-    listIput.value = '';
+    listInput.value = '';
 }
 //FUNÇÃO DE CHECK E SELECT
 function deleteCheck(e){
@@ -85,3 +88,45 @@ function filtroList(e){
 };
 
 //CRIANDO FUNÇÃO DE SALVAR LOCAL STORANGE
+function saveLocalTodos(todo){
+    // CHECAR SE EXISTE ALGUMA COISA
+    let todos;
+    if(localStorage.getItem('todos')===null){
+        todos = [];
+    }else{
+        todos = JSON.parse(localStorage.getItem('todos'));
+    }
+    todos.push(todo);
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+function getTodos(){
+    let todos;
+    if(localStorage.getItem('todos')===null){
+        todos = [];
+    }else{
+        todos = JSON.parse(localStorage.getItem('todos'));
+    }
+    todos.forEach(function(todo){
+        const listDiv = document.createElement('div');
+        listDiv.classList.add('to_do');
+        //CRIANDO UM LI
+        const newTo_do = document.createElement('li');
+        newTo_do.innerText = todo;
+        newTo_do.classList.add('to_do_item');
+        listDiv.appendChild(newTo_do);
+        
+        //CHECAR MARCAÇÃO DE BOTÃO
+        const buttonMarcado = document.createElement('button');
+        buttonMarcado.innerHTML = '<i class="fas fa-check"></i>';
+        buttonMarcado.classList.add('complete-btn');
+        listDiv.appendChild(buttonMarcado);
+        
+        const buttonNaoMarcado = document.createElement('button');
+        buttonNaoMarcado.innerHTML = '<i class="fas fa-trash"></i>';
+        buttonNaoMarcado.classList.add('trash-btn');
+        listDiv.appendChild(buttonNaoMarcado);
+
+        list.appendChild(listDiv);    
+    });
+}   
