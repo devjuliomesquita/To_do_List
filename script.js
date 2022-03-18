@@ -2,9 +2,12 @@
 const listIput = document.querySelector('.list-input');
 const listButton = document.querySelector('.list-button');
 const list = document.querySelector('.list');
+const listFiltros = document.querySelector('.listFiltros');
 
 //EVENT LISTENERS
 listButton.addEventListener('click',addList);
+list.addEventListener('click',deleteCheck);
+listFiltros.addEventListener('click',filtroList);
 
 //FUNÇÕES
 //FUNÇÃO QUE ADD DIVS  
@@ -34,3 +37,51 @@ function addList(event){
     //LIMPAR listImput
     listIput.value = '';
 }
+//FUNÇÃO DE CHECK E SELECT
+function deleteCheck(e){
+    const item = e.target;
+
+    //DELETAR O ITEM DA LISTA
+    if(item.classList[0]==='trash-btn'){
+        const todo = item.parentElement;
+        //ANIMATION
+        todo.classList.add('fall');
+        todo.addEventListener('transitionend', function(){
+            todo.remove();
+        });
+    };
+
+    //CHECAR A MARCAÇÃO
+    if(item.classList[0]==='complete-btn'){
+        const todo = item.parentElement;
+        todo.classList.toggle('completo');
+    };
+};
+
+//FUNÇÃO DE FILTRO
+function filtroList(e){
+    const todos = list.childNodes;
+    todos.forEach(function(todo){
+        switch (e.target.value){
+            case "todos":
+                todo.style.display = 'flex';
+                break;
+            case "completo":
+                if(todo.classList.contains('completo')){
+                    todo.style.display = 'flex';
+                }else{
+                    todo.style.display = 'none';
+                }
+                break;
+            case "incompleto":
+                if(!todo.classList.contains('completo')){
+                    todo.style.display = 'flex';
+                }else{
+                    todo.style.display = 'none';
+                }
+                break;
+        }
+    })
+};
+
+//CRIANDO FUNÇÃO DE SALVAR LOCAL STORANGE

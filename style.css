@@ -51,6 +51,7 @@ form button:hover{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all .5s ease-in-out;
 }
 .to_do li{
     flex: 1;
@@ -69,4 +70,44 @@ form button:hover{
 .to_do_item{
     padding: 0rem .5rem;
     
+}
+.fa-trash, .fa-check{
+    pointer-events: none;
+}
+.completo{
+    text-decoration: line-through;
+    opacity: .7;
+}
+.fall{
+    transform: translateY(8rem) rotateZ(20deg);
+    opacity: 0;
+}
+select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    width: 10rem;
+    cursor: pointer;
+    color: #330867;
+    padding: 1rem;
+}
+.select{
+    margin: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+.select::after{
+    content: '\25bc';
+    position: absolute;
+    background-color: #330867;
+    top:0;
+    right: 0;
+    padding: 1rem;
+    pointer-events: none;
+    transition: all .3s ease;
+}
+.select:hover::after{
+    background-color: #fff;
+    color: #330867;
 }
